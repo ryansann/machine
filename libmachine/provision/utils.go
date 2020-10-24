@@ -11,6 +11,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/cert"
 	"github.com/rancher/machine/libmachine/engine"
@@ -29,6 +31,21 @@ func installDockerGeneric(p Provisioner, baseURL string) error {
 	// just install it using the docker repos
 	if output, err := p.SSHCommand(fmt.Sprintf("if ! type docker; then curl -sSL %s | sh -; fi", baseURL)); err != nil {
 		return fmt.Errorf("error installing docker: %s", output)
+	}
+
+	return nil
+}
+
+func dockerLoginGeneric(p Provisioner, registryOptions registry.Options) error {
+	// check if registry options are configured, all are required
+	if registryOptions.Username == "" || registryOptions.Password == "" || registryOptions.URL == "" {
+		return nil
+	}
+
+	cmd := fmt.Sprintf("if type docker; then docker login -u %s -p %s %s; else echo \"docker not installed\"; exit 1; fi",
+		registryOptions.Username, registryOptions.Password, registryOptions.URL)
+	if output, err := p.SSHCommand(cmd); err != nil {
+		return fmt.Errorf("error authenticating against private registry: %s", output)
 	}
 
 	return nil

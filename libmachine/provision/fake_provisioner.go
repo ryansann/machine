@@ -6,6 +6,7 @@ import (
 	"github.com/rancher/machine/libmachine/engine"
 	"github.com/rancher/machine/libmachine/provision/pkgaction"
 	"github.com/rancher/machine/libmachine/provision/serviceaction"
+	"github.com/rancher/machine/libmachine/registry"
 	"github.com/rancher/machine/libmachine/swarm"
 )
 
@@ -63,7 +64,7 @@ func (fp *FakeProvisioner) CompatibleWithHost() bool {
 	return true
 }
 
-func (fp *FakeProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options) error {
+func (fp *FakeProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options, registryOptions registry.Options) error {
 	return nil
 }
 

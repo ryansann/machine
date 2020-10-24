@@ -12,6 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/commands/mcndirs"
 	"github.com/rancher/machine/libmachine"
 	"github.com/rancher/machine/libmachine/auth"
@@ -128,6 +130,18 @@ var (
 			Usage: "Support extra SANs for TLS certs",
 			Value: &cli.StringSlice{},
 		},
+		cli.StringFlag{
+			Name:  "registry-username",
+			Usage: "Username for private registry authentication",
+		},
+		cli.StringFlag{
+			Name:  "registry-password",
+			Usage: "Password for private registry authentication",
+		},
+		cli.StringFlag{
+			Name:  "registry-url",
+			Usage: "Private registry url",
+		},
 	}
 )
 
@@ -200,6 +214,11 @@ func cmdCreateInner(c CommandLine, api libmachine.API) error {
 			ArbitraryFlags:     c.StringSlice("swarm-opt"),
 			ArbitraryJoinFlags: c.StringSlice("swarm-join-opt"),
 			IsExperimental:     c.Bool("swarm-experimental"),
+		},
+		RegistryOptions: &registry.Options{
+			Username: c.String("registry-username"),
+			Password: c.String("registry-password"),
+			URL:      c.String("registry-url"),
 		},
 	}
 

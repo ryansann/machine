@@ -10,6 +10,7 @@ import (
 	"github.com/rancher/machine/libmachine/engine"
 	"github.com/rancher/machine/libmachine/log"
 	"github.com/rancher/machine/libmachine/provision/pkgaction"
+	"github.com/rancher/machine/libmachine/registry"
 	"github.com/rancher/machine/libmachine/swarm"
 	"github.com/rancher/machine/libmachine/versioncmp"
 )
@@ -109,10 +110,11 @@ func (provisioner *CoreOSProvisioner) Package(name string, action pkgaction.Pack
 	return nil
 }
 
-func (provisioner *CoreOSProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options) error {
+func (provisioner *CoreOSProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options, registryOptions registry.Options) error {
 	provisioner.SwarmOptions = swarmOptions
 	provisioner.AuthOptions = authOptions
 	provisioner.EngineOptions = engineOptions
+	provisioner.RegistryOptions = registryOptions
 
 	if err := provisioner.SetHostname(provisioner.Driver.GetMachineName()); err != nil {
 		return err

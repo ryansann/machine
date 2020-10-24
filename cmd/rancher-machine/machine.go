@@ -3,9 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
-	"strconv"
-
 	"path/filepath"
+	"strconv"
 
 	"github.com/rancher/machine/commands"
 	"github.com/rancher/machine/commands/mcndirs"

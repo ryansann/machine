@@ -5,6 +5,8 @@ import (
 	"io"
 	"path/filepath"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/drivers/errdriver"
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/cert"
@@ -83,6 +85,7 @@ func (api *Client) NewHost(driverName string, rawDriver []byte) (*host.Host, err
 				Image:    "swarm:latest",
 				Strategy: "spread",
 			},
+			RegistryOptions: &registry.Options{},
 		},
 	}, nil
 }
@@ -168,7 +171,12 @@ func (api *Client) performCreate(h *host.Host) error {
 	}
 
 	log.Infof("Provisioning with %s...", provisioner.String())
-	if err := provisioner.Provision(*h.HostOptions.SwarmOptions, *h.HostOptions.AuthOptions, *h.HostOptions.EngineOptions); err != nil {
+	if err := provisioner.Provision(
+		*h.HostOptions.SwarmOptions,
+		*h.HostOptions.AuthOptions,
+		*h.HostOptions.EngineOptions,
+		*h.HostOptions.RegistryOptions,
+	); err != nil {
 		return fmt.Errorf("Error running provisioning: %s", err)
 	}
 

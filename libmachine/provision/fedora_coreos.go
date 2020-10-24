@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"text/template"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/drivers"
 	"github.com/rancher/machine/libmachine/engine"
@@ -110,10 +112,11 @@ func (provisioner *FedoraCoreOSProvisioner) Package(name string, action pkgactio
 }
 
 // Provision provisions the machine
-func (provisioner *FedoraCoreOSProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options) error {
+func (provisioner *FedoraCoreOSProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options, registryOptions registry.Options) error {
 	provisioner.SwarmOptions = swarmOptions
 	provisioner.AuthOptions = authOptions
 	provisioner.EngineOptions = engineOptions
+	provisioner.RegistryOptions = registryOptions
 
 	if err := provisioner.SetHostname(provisioner.Driver.GetMachineName()); err != nil {
 		return err
@@ -135,4 +138,3 @@ func (provisioner *FedoraCoreOSProvisioner) Provision(swarmOptions swarm.Options
 	err := configureSwarm(provisioner, swarmOptions, provisioner.AuthOptions)
 	return err
 }
-

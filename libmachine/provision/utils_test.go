@@ -6,6 +6,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/drivers/fakedriver"
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/engine"
@@ -202,7 +204,7 @@ func (provisioner *fakeProvisioner) Package(name string, action pkgaction.Packag
 	return nil
 }
 
-func (provisioner *fakeProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options) error {
+func (provisioner *fakeProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options, registryOptions registry.Options) error {
 	return nil
 }
 

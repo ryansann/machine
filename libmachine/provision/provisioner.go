@@ -3,6 +3,8 @@ package provision
 import (
 	"fmt"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/drivers"
 	"github.com/rancher/machine/libmachine/engine"
@@ -69,10 +71,11 @@ type Provisioner interface {
 	// Do the actual provisioning piece:
 	//     1. Set the hostname on the instance.
 	//     2. Install Docker if it is not present.
-	//     3. Configure the daemon to accept connections over TLS.
-	//     4. Copy the needed certificates to the server and local config dir.
-	//     5. Configure / activate swarm if applicable.
-	Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options) error
+	// 	   3. Authenticate to private registry if there is one
+	//     4. Configure the daemon to accept connections over TLS.
+	//     5. Copy the needed certificates to the server and local config dir.
+	//     6. Configure / activate swarm if applicable.
+	Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options, registryOptions registry.Options) error
 
 	// Perform action on a named service e.g. stop
 	Service(name string, action serviceaction.ServiceAction) error

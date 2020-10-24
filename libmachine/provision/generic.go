@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"text/template"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/drivers"
 	"github.com/rancher/machine/libmachine/engine"
@@ -22,6 +24,7 @@ type GenericProvisioner struct {
 	AuthOptions       auth.Options
 	EngineOptions     engine.Options
 	SwarmOptions      swarm.Options
+	RegistryOptions   registry.Options
 }
 
 type GenericSSHCommander struct {

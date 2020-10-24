@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/commands/mcndirs"
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/drivers"
@@ -92,12 +94,13 @@ func (provisioner *RancherProvisioner) Package(name string, action pkgaction.Pac
 	return nil
 }
 
-func (provisioner *RancherProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options) error {
+func (provisioner *RancherProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options, registryOptions registry.Options) error {
 	log.Debugf("Running RancherOS provisioner on %s", provisioner.Driver.GetMachineName())
 
 	provisioner.SwarmOptions = swarmOptions
 	provisioner.AuthOptions = authOptions
 	provisioner.EngineOptions = engineOptions
+	provisioner.RegistryOptions = registryOptions
 	swarmOptions.Env = engineOptions.Env
 
 	if provisioner.EngineOptions.StorageDriver == "" {

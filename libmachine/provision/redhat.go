@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"text/template"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/drivers"
 	"github.com/rancher/machine/libmachine/engine"
@@ -127,10 +129,11 @@ func (provisioner *RedHatProvisioner) dockerDaemonResponding() bool {
 	return true
 }
 
-func (provisioner *RedHatProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options) error {
+func (provisioner *RedHatProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options, registryOptions registry.Options) error {
 	provisioner.SwarmOptions = swarmOptions
 	provisioner.AuthOptions = authOptions
 	provisioner.EngineOptions = engineOptions
+	provisioner.RegistryOptions = registryOptions
 	swarmOptions.Env = engineOptions.Env
 
 	// set default storage driver for redhat

@@ -9,6 +9,8 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/commands/mcndirs"
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/drivers"
@@ -34,11 +36,12 @@ func NewBoot2DockerProvisioner(d drivers.Driver) Provisioner {
 }
 
 type Boot2DockerProvisioner struct {
-	OsReleaseInfo *OsRelease
-	Driver        drivers.Driver
-	AuthOptions   auth.Options
-	EngineOptions engine.Options
-	SwarmOptions  swarm.Options
+	OsReleaseInfo   *OsRelease
+	Driver          drivers.Driver
+	AuthOptions     auth.Options
+	EngineOptions   engine.Options
+	SwarmOptions    swarm.Options
+	RegistryOptions registry.Options
 }
 
 func (provisioner *Boot2DockerProvisioner) String() string {
@@ -215,7 +218,7 @@ You also might want to clear any VirtualBox host only interfaces you are not usi
 	}
 }
 
-func (provisioner *Boot2DockerProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options) error {
+func (provisioner *Boot2DockerProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options, registryOptions registry.Options) error {
 	var (
 		err error
 	)
@@ -229,6 +232,7 @@ func (provisioner *Boot2DockerProvisioner) Provision(swarmOptions swarm.Options,
 	provisioner.SwarmOptions = swarmOptions
 	provisioner.AuthOptions = authOptions
 	provisioner.EngineOptions = engineOptions
+	provisioner.RegistryOptions = registryOptions
 	swarmOptions.Env = engineOptions.Env
 
 	if provisioner.EngineOptions.StorageDriver == "" {

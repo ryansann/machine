@@ -3,6 +3,8 @@ package host
 import (
 	"regexp"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/cert"
 	"github.com/rancher/machine/libmachine/drivers"
@@ -47,12 +49,13 @@ type Host struct {
 }
 
 type Options struct {
-	Driver        string
-	Memory        int
-	Disk          int
-	EngineOptions *engine.Options
-	SwarmOptions  *swarm.Options
-	AuthOptions   *auth.Options
+	Driver          string
+	Memory          int
+	Disk            int
+	EngineOptions   *engine.Options
+	SwarmOptions    *swarm.Options
+	AuthOptions     *auth.Options
+	RegistryOptions *registry.Options
 }
 
 type Metadata struct {
@@ -265,7 +268,7 @@ func (h *Host) ConfigureAuth() error {
 	// and modularity of the provisioners should be).
 	//
 	// Call provision to re-provision the certs properly.
-	return provisioner.Provision(swarm.Options{}, *h.HostOptions.AuthOptions, *h.HostOptions.EngineOptions)
+	return provisioner.Provision(swarm.Options{}, *h.HostOptions.AuthOptions, *h.HostOptions.EngineOptions, *h.HostOptions.RegistryOptions)
 }
 
 func (h *Host) ConfigureAllAuth() error {
@@ -282,5 +285,5 @@ func (h *Host) Provision() error {
 		return err
 	}
 
-	return provisioner.Provision(*h.HostOptions.SwarmOptions, *h.HostOptions.AuthOptions, *h.HostOptions.EngineOptions)
+	return provisioner.Provision(*h.HostOptions.SwarmOptions, *h.HostOptions.AuthOptions, *h.HostOptions.EngineOptions, *h.HostOptions.RegistryOptions)
 }

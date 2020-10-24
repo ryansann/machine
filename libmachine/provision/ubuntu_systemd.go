@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/rancher/machine/libmachine/registry"
+
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/drivers"
 	"github.com/rancher/machine/libmachine/engine"
@@ -96,10 +98,11 @@ func (provisioner *UbuntuSystemdProvisioner) dockerDaemonResponding() bool {
 	return true
 }
 
-func (provisioner *UbuntuSystemdProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options) error {
+func (provisioner *UbuntuSystemdProvisioner) Provision(swarmOptions swarm.Options, authOptions auth.Options, engineOptions engine.Options, registryOptions registry.Options) error {
 	provisioner.SwarmOptions = swarmOptions
 	provisioner.AuthOptions = authOptions
 	provisioner.EngineOptions = engineOptions
+	provisioner.RegistryOptions = registryOptions
 	swarmOptions.Env = engineOptions.Env
 
 	storageDriver, err := decideStorageDriver(provisioner, DefaultStorageDriver, engineOptions.StorageDriver)
@@ -127,6 +130,11 @@ func (provisioner *UbuntuSystemdProvisioner) Provision(swarmOptions swarm.Option
 
 	log.Debug("waiting for docker daemon")
 	if err := mcnutils.WaitFor(provisioner.dockerDaemonResponding); err != nil {
+		return err
+	}
+
+	log.Debug("Logging into private registry")
+	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
 		return err
 	}
 
