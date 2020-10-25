@@ -131,16 +131,19 @@ var (
 			Value: &cli.StringSlice{},
 		},
 		cli.StringFlag{
-			Name:  "registry-username",
-			Usage: "Username for private registry authentication",
+			EnvVar: "MACHINE_REGISTRY_USERNAME",
+			Name:   "registry-username",
+			Usage:  "Username for private registry authentication",
 		},
 		cli.StringFlag{
-			Name:  "registry-password",
-			Usage: "Password for private registry authentication",
+			EnvVar: "MACHINE_REGISTRY_PASSWORD",
+			Name:   "registry-password",
+			Usage:  "Password for private registry authentication",
 		},
 		cli.StringFlag{
-			Name:  "registry-url",
-			Usage: "Private registry url",
+			EnvVar: "MACHINE_REGISTRY_URL",
+			Name:   "registry-url",
+			Usage:  "Private registry url",
 		},
 	}
 )

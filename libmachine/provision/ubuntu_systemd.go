@@ -140,7 +140,7 @@ func (provisioner *UbuntuSystemdProvisioner) Provision(swarmOptions swarm.Option
 		return err
 	}
 
-	log.Debug("Logging into private registry")
+	log.Info("Logging into private registry")
 	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
 		return err
 	}
