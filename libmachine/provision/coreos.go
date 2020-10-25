@@ -132,7 +132,15 @@ func (provisioner *CoreOSProvisioner) Provision(swarmOptions swarm.Options, auth
 		return err
 	}
 
+	log.Debug("Logging into private registry")
+	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
+		return err
+	}
+
 	log.Debug("Configuring swarm")
-	err := configureSwarm(provisioner, swarmOptions, provisioner.AuthOptions)
-	return err
+	if err := configureSwarm(provisioner, swarmOptions, provisioner.AuthOptions); err != nil {
+		return err
+	}
+
+	return nil
 }

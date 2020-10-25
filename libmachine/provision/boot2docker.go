@@ -259,6 +259,11 @@ func (provisioner *Boot2DockerProvisioner) Provision(swarmOptions swarm.Options,
 		return err
 	}
 
+	log.Debug("Logging into private registry")
+	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
+		return err
+	}
+
 	err = configureSwarm(provisioner, swarmOptions, provisioner.AuthOptions)
 	return err
 }

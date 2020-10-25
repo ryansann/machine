@@ -134,6 +134,11 @@ func (provisioner *FedoraCoreOSProvisioner) Provision(swarmOptions swarm.Options
 		return err
 	}
 
+	log.Debug("Logging into private registry")
+	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
+		return err
+	}
+
 	log.Debug("Configuring swarm")
 	err := configureSwarm(provisioner, swarmOptions, provisioner.AuthOptions)
 	return err

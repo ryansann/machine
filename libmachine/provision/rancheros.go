@@ -138,6 +138,11 @@ func (provisioner *RancherProvisioner) Provision(swarmOptions swarm.Options, aut
 		return err
 	}
 
+	log.Debug("Logging into private registry")
+	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
+		return err
+	}
+
 	log.Debugf("Configuring swarm")
 	err := configureSwarm(provisioner, swarmOptions, provisioner.AuthOptions)
 	return err

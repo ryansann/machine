@@ -168,15 +168,15 @@ func (provisioner *SUSEProvisioner) Provision(swarmOptions swarm.Options, authOp
 		return err
 	}
 
-	log.Debug("Logging into private registry")
-	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
-		return err
-	}
-
 	provisioner.AuthOptions = setRemoteAuthOptions(provisioner)
 
 	log.Debug("Configuring auth")
 	if err := ConfigureAuth(provisioner); err != nil {
+		return err
+	}
+
+	log.Debug("Logging into private registry")
+	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
 		return err
 	}
 

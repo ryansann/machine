@@ -123,15 +123,15 @@ func (provisioner *DebianProvisioner) Provision(swarmOptions swarm.Options, auth
 		return err
 	}
 
-	log.Debug("Logging into private registry")
-	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
-		return err
-	}
-
 	provisioner.AuthOptions = setRemoteAuthOptions(provisioner)
 
 	log.Debug("configuring auth")
 	if err := ConfigureAuth(provisioner); err != nil {
+		return err
+	}
+
+	log.Debug("Logging into private registry")
+	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
 		return err
 	}
 

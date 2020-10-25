@@ -178,6 +178,11 @@ func (provisioner *RedHatProvisioner) Provision(swarmOptions swarm.Options, auth
 		return err
 	}
 
+	log.Debug("Logging into private registry")
+	if err := dockerLoginGeneric(provisioner, registryOptions); err != nil {
+		return err
+	}
+
 	err = configureSwarm(provisioner, swarmOptions, provisioner.AuthOptions)
 	return err
 }
