@@ -9,8 +9,6 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/rancher/machine/libmachine/registry"
-
 	"github.com/rancher/machine/commands/mcndirs"
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/drivers"
@@ -19,6 +17,7 @@ import (
 	"github.com/rancher/machine/libmachine/mcnutils"
 	"github.com/rancher/machine/libmachine/provision/pkgaction"
 	"github.com/rancher/machine/libmachine/provision/serviceaction"
+	"github.com/rancher/machine/libmachine/registry"
 	"github.com/rancher/machine/libmachine/state"
 	"github.com/rancher/machine/libmachine/swarm"
 )

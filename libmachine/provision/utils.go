@@ -37,13 +37,15 @@ func installDockerGeneric(p Provisioner, baseURL string) error {
 }
 
 func dockerLoginGeneric(p Provisioner, registryOptions registry.Options) error {
-	// check if registry options are configured, all are required
+	// check if registry options are defined, all are required
 	if registryOptions.Username == "" || registryOptions.Password == "" || registryOptions.URL == "" {
 		return nil
 	}
 
-	cmd := fmt.Sprintf("if type docker; then docker login -u %s -p %s %s; else echo \"docker not installed\"; exit 1; fi",
-		registryOptions.Username, registryOptions.Password, registryOptions.URL)
+	cmd := fmt.Sprintf(
+		"if type docker; then docker login -u %s -p %s %s; else echo \"docker not installed\"; exit 1; fi",
+		registryOptions.Username, registryOptions.Password, registryOptions.URL,
+	)
 	if output, err := p.SSHCommand(cmd); err != nil {
 		return fmt.Errorf("error authenticating against private registry: %s", output)
 	}

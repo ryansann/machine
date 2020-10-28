@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"text/template"
 
-	"github.com/rancher/machine/libmachine/registry"
-
 	"github.com/rancher/machine/libmachine/auth"
 	"github.com/rancher/machine/libmachine/drivers"
 	"github.com/rancher/machine/libmachine/engine"
 	"github.com/rancher/machine/libmachine/log"
 	"github.com/rancher/machine/libmachine/provision/pkgaction"
+	"github.com/rancher/machine/libmachine/registry"
 	"github.com/rancher/machine/libmachine/swarm"
 )
 
